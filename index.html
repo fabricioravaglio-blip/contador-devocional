@@ -30,28 +30,6 @@
         .header h1 { color: var(--primary); font-size: 1.6rem; margin-bottom: 5px; font-weight: 700; }
         .header p { font-size: 0.9rem; opacity: 0.7; }
         
-        .nav { 
-            display: flex; 
-            background: white; 
-            border-radius: 15px; 
-            padding: 5px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .nav-btn { 
-            flex: 1; 
-            padding: 12px 8px; 
-            border: none; 
-            background: transparent; 
-            border-radius: 12px; 
-            font-weight: 600; 
-            color: var(--text);
-            font-size: 0.85rem;
-        }
-        
-        .nav-btn.active { background: var(--primary); color: white; }
-        
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.3s; }
         
@@ -68,26 +46,26 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
         
-        .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .religions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         
-        .theme { 
+        .religion { 
             background: var(--accent); 
             border: 3px solid transparent; 
             border-radius: 16px; 
-            padding: 20px 10px; 
+            padding: 25px 10px; 
             text-align: center; 
             cursor: pointer;
             transition: all 0.3s;
         }
         
-        .theme:active { transform: scale(0.95); }
-        .theme.active { border-color: var(--primary); background: white; }
-        .theme-icon { font-size: 2.2rem; margin-bottom: 8px; }
-        .theme-name { font-size: 0.95rem; font-weight: 600; color: var(--primary); }
+        .religion:active { transform: scale(0.95); }
+        .religion.active { border-color: var(--primary); background: white; }
+        .religion-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .religion-name { font-size: 1rem; font-weight: 600; color: var(--primary); }
         
         .counter-display {
-            width: 160px;
-            height: 160px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             margin: 20px auto;
@@ -97,11 +75,11 @@
             align-items: center;
             color: white;
             box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
-            position: relative;
+            transition: transform 0.2s;
         }
         
-        .counter-number { font-size: 3.5rem; font-weight: bold; z-index: 1; }
-        .counter-label { font-size: 0.9rem; opacity: 0.9; z-index: 1; }
+        .counter-number { font-size: 4rem; font-weight: bold; }
+        .counter-label { font-size: 1rem; opacity: 0.9; margin-top: -5px; }
         
         .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
         
@@ -118,28 +96,54 @@
         .btn:active { transform: scale(0.95); }
         .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3); }
         .btn-voice { background: var(--secondary); color: var(--text); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .btn-voice.active { background: #dc3545; color: white; animation: pulse 1.5s infinite; }
         .btn-danger { background: #dc3545; color: white; }
-        
-        .btn-voice.listening {
-            background: #dc3545;
-            color: white;
-            animation: pulse 1.5s infinite;
-        }
+        .btn-secondary { background: #6c757d; color: white; }
         
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
             50% { box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
         }
         
-        .status-bar {
+        .settings-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--accent);
+            border-radius: 12px;
+        }
+        
+        .settings-row label {
+            font-weight: 600;
+            color: var(--primary);
+            flex: 1;
+        }
+        
+        .settings-row input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status-box {
             background: var(--accent);
             padding: 15px;
             border-radius: 12px;
             margin-top: 20px;
             text-align: center;
-            color: var(--primary);
-            font-size: 0.9rem;
-            line-height: 1.6;
+        }
+        
+        .status-box .mode { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
+        .status-box .words { color: var(--text); font-size: 0.9rem; margin-top: 5px; }
+        
+        .word-editor {
+            margin-top: 15px;
         }
         
         .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
@@ -169,140 +173,303 @@
         
         .word-tag .remove { cursor: pointer; opacity: 0.7; font-weight: bold; }
         
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            padding: 10px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        
+        .nav-btn { 
+            flex: 1; 
+            padding: 12px; 
+            border: none; 
+            background: transparent; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        .nav-btn.active { background: var(--primary); color: white; }
+        
+        .content { padding-bottom: 80px; }
+        
+        .permission-banner {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .permission-banner button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
         .empty-state { text-align: center; padding: 40px 20px; color: #999; }
-        .empty-icon { font-size: 3rem; margin-bottom: 10px; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🙏 Contador Devocional</h1>
-        <p>Multi-fé: Católico • Islâmico • Budista • Judaico</p>
-    </div>
-    
-    <div class="nav">
-        <button class="nav-btn active" onclick="showPage('themes')">Tradições</button>
-        <button class="nav-btn" onclick="showPage('counter')">Contador</button>
-        <button class="nav-btn" onclick="showPage('words')">Palavras</button>
-    </div>
-    
-    <div id="page-themes" class="page active">
-        <div class="card">
-            <div class="themes">
-                <div class="theme" onclick="selectTheme('catolico', this)">
-                    <div class="theme-icon">✝️</div>
-                    <div class="theme-name">Católico</div>
+    <div class="content">
+        <div class="header">
+            <h1>🙏 Contador Devocional</h1>
+            <p>Escolha sua religião e comece a praticar</p>
+        </div>
+        
+        <!-- PÁGINA INICIAL - RELIGIÕES -->
+        <div id="page-religions" class="page active">
+            <div class="card">
+                <div class="religions">
+                    <div class="religion" onclick="selectReligion('catolico')">
+                        <div class="religion-icon">✝️</div>
+                        <div class="religion-name">Católico</div>
+                    </div>
+                    <div class="religion" onclick="selectReligion('islamico')">
+                        <div class="religion-icon">☪️</div>
+                        <div class="religion-name">Islâmico</div>
+                    </div>
+                    <div class="religion" onclick="selectReligion('budista')">
+                        <div class="religion-icon">☸️</div>
+                        <div class="religion-name">Budista</div>
+                    </div>
+                    <div class="religion" onclick="selectReligion('judaico')">
+                        <div class="religion-icon">✡️</div>
+                        <div class="religion-name">Judaico</div>
+                    </div>
                 </div>
-                <div class="theme" onclick="selectTheme('islamico', this)">
-                    <div class="theme-icon">☪️</div>
-                    <div class="theme-name">Islâmico</div>
+            </div>
+        </div>
+        
+        <!-- PÁGINA DO CONTADOR -->
+        <div id="page-counter" class="page">
+            <div class="card" style="text-align: center;">
+                <!-- Banner de permissão -->
+                <div id="permissionBanner" class="permission-banner" style="display: none;">
+                    <strong>⚠️ Permissão de Microfone</strong><br>
+                    Para contar por voz, permita o acesso ao microfone.
+                    <br><button onclick="requestMicrophone()">Ativar Microfone</button>
                 </div>
-                <div class="theme" onclick="selectTheme('budista', this)">
-                    <div class="theme-icon">☸️</div>
-                    <div class="theme-name">Budista</div>
+                
+                <div class="counter-display" id="counterCircle">
+                    <span class="counter-number" id="count">0</span>
+                    <span class="counter-label">de <span id="targetDisplay">33</span></span>
                 </div>
-                <div class="theme active" onclick="selectTheme('judaico', this)">
-                    <div class="theme-icon">✡️</div>
-                    <div class="theme-name">Judaico</div>
+                
+                <!-- Configuração de repetições -->
+                <div class="settings-row">
+                    <label>Número de repetições:</label>
+                    <input type="number" id="targetInput" value="33" min="1" max="999" onchange="updateTarget()">
                 </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="increment()">➕ Contar</button>
+                    <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤 Ouvindo</button>
+                    <button class="btn btn-danger" onclick="reset()">↺ Zerar</button>
+                </div>
+                
+                <div class="status-box">
+                    <div class="mode" id="currentMode">Selecione uma religião</div>
+                    <div class="words" id="currentWords">---</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PÁGINA DE PALAVRAS -->
+        <div id="page-words" class="page">
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 15px;">✏️ Palavras Detectadas</h3>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
+                    Adicione palavras que o app deve reconhecer quando você falar.
+                </p>
+                
+                <div class="input-row">
+                    <input type="text" class="text-input" id="newWord" placeholder="Nova palavra..." onkeypress="if(event.key==='Enter') addWord()">
+                    <button class="btn btn-primary" onclick="addWord()">➕</button>
+                </div>
+                
+                <div class="word-tags" id="wordList">
+                    <div class="empty-state">Nenhuma palavra configurada</div>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="loadDefaults()" style="margin-top: 15px; width: 100%;">
+                    🔄 Restaurar Padrões da Religião
+                </button>
             </div>
         </div>
     </div>
     
-    <div id="page-counter" class="page">
-        <div class="card" style="text-align: center;">
-            <div class="counter-display">
-                <span class="counter-number" id="count">0</span>
-                <span class="counter-label">/ <span id="target">33</span></span>
-            </div>
-            
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="increment()">➕ Contar</button>
-                <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤 Voz</button>
-                <button class="btn btn-danger" onclick="reset()">↺ Zerar</button>
-            </div>
-            
-            <div class="status-bar">
-                <strong>Modo:</strong> <span id="currentMode">Judaico</span><br>
-                <strong>Detecta:</strong> <span id="currentWords">baruch, hashem, adonai...</span>
-            </div>
-        </div>
-    </div>
-    
-    <div id="page-words" class="page">
-        <div class="card">
-            <h3 style="color: var(--primary); margin-bottom: 15px;">✏️ Gerenciar Palavras</h3>
-            <div class="input-row">
-                <input type="text" class="text-input" id="newWord" placeholder="Nova palavra..." onkeypress="if(event.key==='Enter') addWord()">
-                <button class="btn btn-primary" onclick="addWord()">➕</button>
-            </div>
-            <div class="word-tags" id="wordList"></div>
-            <button class="btn btn-voice" onclick="loadDefaults()" style="margin-top: 15px; width: 100%;">🔄 Restaurar Padrões</button>
-        </div>
+    <!-- NAVEGAÇÃO INFERIOR -->
+    <div class="nav-bottom">
+        <button class="nav-btn active" id="nav-religions" onclick="showPage('religions')">🙏 Religião</button>
+        <button class="nav-btn" id="nav-counter" onclick="showPage('counter')">🔢 Contador</button>
+        <button class="nav-btn" id="nav-words" onclick="showPage('words')">✏️ Palavras</button>
     </div>
 
     <script>
+        // Dados
         let count = 0;
-        let currentTheme = 'judaico';
+        let target = 33;
+        let currentReligion = '';
         let isListening = false;
         let recognition = null;
         
-        const themes = {
-            catolico: { name: 'Católico', target: 53 },
-            islamico: { name: 'Islâmico', target: 33 },
-            budista: { name: 'Budista', target: 108 },
-            judaico: { name: 'Judaico', target: 33 }
+        const religions = {
+            catolico: { name: 'Católico', icon: '✝️', defaultTarget: 53 },
+            islamico: { name: 'Islâmico', icon: '☪️', defaultTarget: 33 },
+            budista: { name: 'Budista', icon: '☸️', defaultTarget: 108 },
+            judaico: { name: 'Judaico', icon: '✡️', defaultTarget: 33 }
         };
         
         let words = {
-            catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem'],
-            islamico: ['allah', 'alhamdulillah', 'allahu akbar', 'subhanallah', 'astaghfirullah', 'bismillah'],
-            budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda'],
-            judaico: ['baruch', 'hashem', 'adonai', 'adonay', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah', 'tzedakah']
+            catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem', 'creio'],
+            islamico: ['allah', 'ala', 'muhammad', 'subhanallah', 'alhamdulillah', 'allahu akbar', 'astaghfirullah', 'bismillah'],
+            budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda', 'amitabha'],
+            judaico: ['baruch', 'hashem', 'adonai', 'adonay', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah', 'tzedakah', 'tefilah', 'bracha', 'melech', 'olam', 'kodesh', 'shabbat', 'yisrael', 'elohim']
         };
         
-        if ('webkitSpeechRecognition' in window) {
-            recognition = new webkitSpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = false;
-            recognition.lang = 'pt-BR';
+        // Inicializar reconhecimento de voz
+        function initVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Seu navegador não suporta reconhecimento de voz. Use o botão +1 para contar manualmente.');
+                return null;
+            }
             
-            recognition.onresult = (event) => {
-                const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
-                words[currentTheme].forEach(word => {
-                    if (transcript.includes(word)) increment();
-                });
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recog = new SpeechRecognition();
+            
+            recog.continuous = true;
+            recog.interimResults = false;
+            recog.lang = 'pt-BR';
+            
+            recog.onstart = () => {
+                console.log('Reconhecimento iniciado');
+                document.getElementById('voiceBtn').classList.add('active');
+                document.getElementById('voiceBtn').textContent = '⏹️ Parar';
             };
             
-            recognition.onerror = (e) => {
-                if (e.error === 'no-speech' && isListening) {
-                    setTimeout(() => recognition.start(), 500);
+            recog.onend = () => {
+                console.log('Reconhecimento parado');
+                if (isListening) {
+                    setTimeout(() => {
+                        if (isListening) recog.start();
+                    }, 500);
+                } else {
+                    document.getElementById('voiceBtn').classList.remove('active');
+                    document.getElementById('voiceBtn').textContent = '🎤 Ouvindo';
                 }
             };
+            
+            recog.onresult = (event) => {
+                const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                console.log('Ouviu:', transcript);
+                
+                if (!currentReligion) return;
+                
+                let matched = false;
+                words[currentReligion].forEach(word => {
+                    if (transcript.includes(word)) {
+                        matched = true;
+                        console.log('Palavra reconhecida:', word);
+                    }
+                });
+                
+                if (matched) {
+                    increment();
+                    // Feedback visual
+                    const circle = document.getElementById('counterCircle');
+                    circle.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        circle.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            };
+            
+            recog.onerror = (event) => {
+                console.error('Erro:', event.error);
+                if (event.error === 'not-allowed') {
+                    document.getElementById('permissionBanner').style.display = 'block';
+                    isListening = false;
+                } else if (event.error === 'no-speech' && isListening) {
+                    setTimeout(() => {
+                        if (isListening) recog.start();
+                    }, 1000);
+                }
+            };
+            
+            return recog;
         }
         
+        // Selecionar religião e ir direto ao contador
+        function selectReligion(religion) {
+            currentReligion = religion;
+            target = religions[religion].defaultTarget;
+            
+            document.querySelectorAll('.religion').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            document.getElementById('targetInput').value = target;
+            document.getElementById('targetDisplay').textContent = target;
+            document.getElementById('currentMode').textContent = religions[religion].name + ' ' + religions[religion].icon;
+            updateWordDisplay();
+            
+            if (!recognition) {
+                recognition = initVoiceRecognition();
+            }
+            
+            if (recognition) {
+                navigator.permissions.query({ name: 'microphone' }).then(result => {
+                    if (result.state === 'denied') {
+                        document.getElementById('permissionBanner').style.display = 'block';
+                    }
+                }).catch(() => {});
+            }
+            
+            setTimeout(() => {
+                showPage('counter');
+            }, 300);
+        }
+        
+        // Navegação
         function showPage(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
             document.getElementById('page-' + page).classList.add('active');
-            event.target.classList.add('active');
+            document.getElementById('nav-' + page).classList.add('active');
+            
             if (page === 'words') renderWords();
         }
         
-        function selectTheme(theme, element) {
-            currentTheme = theme;
-            document.querySelectorAll('.theme').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            document.getElementById('currentMode').textContent = themes[theme].name;
-            document.getElementById('target').textContent = themes[theme].target;
-            updateWordDisplay();
-            reset();
+        // Atualizar número de repetições
+        function updateTarget() {
+            const newTarget = parseInt(document.getElementById('targetInput').value);
+            if (newTarget > 0 && newTarget <= 999) {
+                target = newTarget;
+                document.getElementById('targetDisplay').textContent = target;
+            }
         }
         
+        // Controles
         function increment() {
             count++;
             document.getElementById('count').textContent = count;
+            
             if (navigator.vibrate) navigator.vibrate(50);
-            if (count >= themes[currentTheme].target) {
+            
+            if (count >= target) {
                 complete();
             }
         }
@@ -315,36 +482,56 @@
         
         function toggleVoice() {
             if (!recognition) {
-                alert('Reconhecimento de voz não suportado neste dispositivo');
-                return;
+                recognition = initVoiceRecognition();
+                if (!recognition) return;
             }
             
             isListening = !isListening;
-            const btn = document.getElementById('voiceBtn');
             
             if (isListening) {
-                recognition.start();
-                btn.textContent = '⏹️ Parar';
-                btn.classList.add('listening');
+                try {
+                    recognition.start();
+                } catch(e) {
+                    console.error('Erro ao iniciar:', e);
+                    isListening = false;
+                }
             } else {
                 recognition.stop();
-                btn.textContent = '🎤 Voz';
-                btn.classList.remove('listening');
             }
+        }
+        
+        function requestMicrophone() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(() => {
+                    document.getElementById('permissionBanner').style.display = 'none';
+                    alert('Microfone ativado! Agora você pode usar o reconhecimento de voz.');
+                })
+                .catch(() => {
+                    alert('Permissão negada. Você precisa permitir o microfone nas configurações do navegador.');
+                });
         }
         
         function complete() {
             if (isListening) toggleVoice();
-            alert('🎉 Prática completada! ' + themes[currentTheme].name);
+            
+            const msg = '🎉 ' + religions[currentReligion].name + ' - Prática completada! ' + count + ' repetições.';
+            alert(msg);
+            
             if (navigator.vibrate) navigator.vibrate([100, 100, 100, 300]);
         }
         
+        // Gerenciamento de palavras
         function renderWords() {
+            if (!currentReligion) {
+                document.getElementById('wordList').innerHTML = '<div class="empty-state">Selecione uma religião primeiro</div>';
+                return;
+            }
+            
             const container = document.getElementById('wordList');
-            const currentWords = words[currentTheme];
+            const currentWords = words[currentReligion];
             
             if (currentWords.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><p>Nenhuma palavra configurada</p></div>';
+                container.innerHTML = '<div class="empty-state">Nenhuma palavra configurada</div>';
                 return;
             }
             
@@ -354,13 +541,18 @@
         }
         
         function addWord() {
+            if (!currentReligion) {
+                alert('Selecione uma religião primeiro!');
+                return;
+            }
+            
             const input = document.getElementById('newWord');
             const word = input.value.trim().toLowerCase();
             
             if (!word) return;
             
-            if (!words[currentTheme].includes(word)) {
-                words[currentTheme].push(word);
+            if (!words[currentReligion].includes(word)) {
+                words[currentReligion].push(word);
                 input.value = '';
                 renderWords();
                 updateWordDisplay();
@@ -368,15 +560,20 @@
         }
         
         function removeWord(index) {
-            words[currentTheme].splice(index, 1);
+            words[currentReligion].splice(index, 1);
             renderWords();
             updateWordDisplay();
         }
         
         function loadDefaults() {
+            if (!currentReligion) {
+                alert('Selecione uma religião primeiro!');
+                return;
+            }
+            
             words = {
                 catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem', 'creio'],
-                islamico: ['allah', 'ala', 'muhammad', 'subhanallah', 'alhamdulillah', 'allahu akbar', 'astaghfirullah'],
+                islamico: ['allah', 'ala', 'muhammad', 'subhanallah', 'alhamdulillah', 'allahu akbar', 'astaghfirullah', 'bismillah'],
                 budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda', 'amitabha'],
                 judaico: ['baruch', 'hashem', 'adonai', 'adonay', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah', 'tzedakah', 'tefilah', 'bracha', 'melech', 'olam', 'kodesh', 'shabbat', 'yisrael', 'elohim']
             };
@@ -385,11 +582,10 @@
         }
         
         function updateWordDisplay() {
-            const display = words[currentTheme].slice(0, 4).join(', ') + '...';
-            document.getElementById('currentWords').textContent = display;
+            if (!currentReligion) return;
+            const display = words[currentReligion].slice(0, 5).join(', ') + (words[currentReligion].length > 5 ? '...' : '');
+            document.getElementById('currentWords').textContent = display || '---';
         }
-        
-        updateWordDisplay();
     </script>
 </body>
-  </html>
+</html>
