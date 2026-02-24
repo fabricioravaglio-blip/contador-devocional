@@ -2,133 +2,164 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1e3a8a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contador Devocional</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        :root {
-            --primary: #1e3a8a;
-            --secondary: #d4af37;
-            --accent: #f0f4ff;
-            --text: #1e293b;
-            --bg: linear-gradient(135deg, #f0f4ff 0%, #dbe4ff 100%);
-            --success: #28a745;
-        }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            padding: 15px;
-            padding-bottom: 100px;
-        }
-        
-        .header { text-align: center; padding: 20px 10px; }
-        .header h1 { color: var(--primary); font-size: 1.6rem; margin-bottom: 5px; }
-        .header p { font-size: 0.9rem; opacity: 0.7; }
-        
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.3s; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .card { 
-            background: white; 
-            border-radius: 20px; 
-            padding: 20px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        
-        .religions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        
-        .religion { 
-            background: var(--accent); 
-            border: 3px solid transparent; 
-            border-radius: 16px; 
-            padding: 25px 10px; 
-            text-align: center; 
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .religion:active { transform: scale(0.95); }
-        .religion.active { border-color: var(--primary); background: white; }
-        .religion-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .religion-name { font-size: 1rem; font-weight: 600; color: var(--primary); }
-        
-        .counter-display {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            margin: 20px auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.5);
-            transition: all 0.3s;
-        }
-        
-        .counter-display.pressed {
-            transform: scale(0.95);
-        }
-        
-        .counter-display.completed {
-            background: linear-gradient(135deg, var(--success) 0%, var(--secondary) 100%);
-            animation: completePulse 1s;
-        }
-        
-        @keyframes completePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .counter-number { font-size: 5rem; font-weight: bold; }
-        .counter-label { font-size: 1.2rem; opacity: 0.9; margin-top: -10px; }
-        
-        .big-button {
-            width: 100%;
-n            padding: 25px;\n            font-size: 1.5rem;\n            font-weight: bold;\n            border: none;\n            border-radius: 20px;\n            background: linear-gradient(135deg, var(--primary) 0%, #3b5998 100%);\n            color: white;\n            cursor: pointer;\n            margin: 20px 0;\n            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);\n        }
-        
-        .big-button:active { transform: scale(0.98); }
-        
-        .controls-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .control-btn {
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #dbe4ff 100%);
+            margin: 0;
             padding: 20px;
+            text-align: center;
+        }
+        h1 { color: #1e3a8a; }
+        .btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            margin: 10px;
             border: none;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 10px;
             cursor: pointer;
+            background: #1e3a8a;
+            color: white;
         }
-        
-        .btn-minus { background: #dc3545; color: white; }
-        .btn-reset { background: #6c757d; color: white; }
-        
-        .settings-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 20px 0;
+        .btn-religiao {
+            background: #f0f4ff;
+            color: #1e3a8a;
+            border: 3px solid #1e3a8a;
+            width: 45%;
+            display: inline-block;
+        }
+        .btn-contar {
+            background: linear-gradient(135deg, #1e3a8a 0%, #d4af37 100%);
+            font-size: 32px;
+            padding: 40px;
+            width: 90%;
+        }
+        .btn-menor {
+            background: #dc3545;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        .contador {
+            font-size: 80px;
+            color: #1e3a8a;
+            margin: 30px;
+            font-weight: bold;
+        }
+        .info {
+            background: white;
             padding: 20px;
-            background: var(--accent);
             border-radius: 15px;
+            margin: 20px auto;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+        input {
+            padding: 15px;
+            font-size: 20px;
+            width: 100px;
+            text-align: center;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+        }
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+        }
+        .nav button {
+            padding: 15px;
+            font-size: 16px;
+            margin: 0 5px;
+        }
+        .pagina { display: none; }
+        .pagina.ativa { display: block; padding-bottom: 80px; }
+    </style>
+</head>
+<body>
+
+    <div id="pagina1" class="pagina ativa">
+        <h1>🙏 Escolha sua Religião</h1>
+        <button class="btn btn-religiao" onclick="escolher('catolico')">✝️<br>Católico</button>
+        <button class="btn btn-religiao" onclick="escolher('islamico')">☪️<br>Islâmico</button>
+        <button class="btn btn-religiao" onclick="escolher('budista')">☸️<br>Budista</button>
+        <button class="btn btn-religiao" onclick="escolher('judaico')">✡️<br>Judaico</button>
+    </div>
+
+    <div id="pagina2" class="pagina">
+        <h1 id="titulo">Contador</h1>
+        <div class="info">
+            <p>Repetições: <input type="number" id="meta" value="33" min="1"></p>
+            <p id="frase">---</p>
+        </div>
+        <div class="contador" id="numero">0</div>
+        <button class="btn btn-contar" onclick="contar()">👆 TOQUE PARA CONTAR</button>
+        <br><br>
+        <button class="btn btn-menor" onclick="diminuir()">➖</button>
+        <button class="btn btn-menor" onclick="zerar()">↺ Zerar</button>
+    </div>
+
+    <div id="pagina3" class="pagina">
+        <h1>Palavras de Referência</h1>
+        <div class="info" id="lista-palavras">
+            Selecione uma religião primeiro
+        </div>
+    </div>
+
+    <div class="nav">
+        <button class="btn" onclick="mostrar(1)" style="padding: 15px;">🙏 Religião</button>
+        <button class="btn" onclick="mostrar(2)" style="padding: 15px;">🔢 Contar</button>
+        <button class="btn" onclick="mostrar(3)" style="padding: 15px;">✏️ Palavras</button>
+    </div>
+
+    <script>
+        var contagem = 0;
+        var religiaoAtual = '';
         
-        .settings-row label { 
-            font-weight: 600; \n            color: var(--primary); \n            flex: 1;\n            font-size: 1.1rem;\n        }\n        \n        .settings-row input[type=\"number\"] {\n            width: 100px;\n            padding: 15px;\n            border: 3px solid var(--secondary);\n            border-radius: 12px;\n            font-size: 1.5rem;\n            text-align: center;\n            font-weight: bold;\n        }\n        \n        .status-box {\n            background: var(--accent);\n            padding: 20px;\n            border-radius: 15px;\n            margin-top: 20px;\n            text-align: center;\n        }\n        \n        .status-box .mode { \n            font-weight: bold; \n            color: var(--primary); \n            font-size: 1.3rem; \n            margin-bottom: 10px;\n        }\n        \n        .phrase-display {\n            font-size: 1.1rem;\n            color: var(--text);\n            font-style: italic;\n            margin-top: 10px;\n        }\n        \n        .progress-bar {\n            width: 100%;\n            height: 10px;\n            background: #e0e0e0;\n            border-radius: 5px;\n            margin-top: 15px;\n            overflow: hidden;\n        }\n        \n        .progress-fill {\n            height: 100%;\n            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);\n            border-radius: 5px;\n            transition: width 0.3s;\n        }\n        \n        .nav-bottom {\n            position: fixed;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            background: white;\n            display: flex;\n            padding: 10px;\n            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);\n            z-index: 100;\n        }\n        \n        .nav-btn { \n            flex: 1; \n            padding: 15px; \n            border: none; \n            background: transparent; \n            border-radius: 12px; \n            font-weight: 600; \n            color: var(--text);\n            font-size: 1rem;\n        }\n        \n        .nav-btn.active { background: var(--primary); color: white; }\n        \n        .content { padding-bottom: 100px; }\n        \n        .word-list { \n            display: flex; \n            flex-wrap: wrap; \n            gap: 10px; \n            margin-top: 15px; \n            padding: 15px;\n            background: var(--accent);\n            border-radius: 12px;\n        }\n        \n        .word-tag {\n            background: var(--primary);\n            color: white;\n            padding: 10px 18px;\n            border-radius: 25px;\n            font-size: 1rem;\n        }\n        \n        .input-row { display: flex; gap: 10px; margin-bottom: 20px; }\n        \n        .text-input {\n            flex: 1;\n            padding: 15px;\n            border: 2px solid #e0e0e0;\n            border-radius: 12px;\n            font-size: 1.1rem;\n        }\n        \n        .add-btn {\n            padding: 15px 25px;\n            background: var(--primary);\n            color: white;\n            border: none;\n            border-radius: 12px;\n            font-weight: bold;\n            font-size: 1.2rem;\n        }\n        \n        .info-text {\n            background: #fff3cd;\n            border-left: 4px solid #ffc107;\n            padding: 15px;\n            margin: 15px 0;\n            border-radius: 0 12px 12px 0;\n            font-size: 0.95rem;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"content\">\n        <div class=\"header\">\n            <h1>🙏 Contador Devocional</h1>\n            <p>Toque para contar • Modo Manual</p>\n        </div>\n        \n        <div id=\"page-religions\" class=\"page active\">\n            <div class=\"card\">\n                <div class=\"religions\">\n                    <div class=\"religion\" onclick=\"selectReligion('catolico')\">\n                        <div class=\"religion-icon\">✝️</div>\n                        <div class=\"religion-name\">Católico</div>\n                    </div>\n                    <div class=\"religion\" onclick=\"selectReligion('islamico')\">\n                        <div class=\"religion-icon\">☪️</div>\n                        <div class=\"religion-name\">Islâmico</div>\n                    </div>\n                    <div class=\"religion\" onclick=\"selectReligion('budista')\">\n                        <div class=\"religion-icon\">☸️</div>\n                        <div class=\"religion-name\">Budista</div>\n                    </div>\n                    <div class=\"religion\" onclick=\"selectReligion('judaico')\">\n                        <div class=\"religion-icon\">✡️</div>\n                        <div class=\"religion-name\">Judaico</div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        \n        <div id=\"page-counter\" class=\"page\">\n            <div class=\"card\" style=\"text-align: center;\">\n                <div class=\"status-box\">\n                    <div class=\"mode\" id=\"currentMode\">Selecione uma religião</div>\n                    <div class=\"phrase-display\" id=\"currentPhrase\">---</div>\n                    <div class=\"progress-bar\">\n                        <div class=\"progress-fill\" id=\"progressFill\" style=\"width: 0%\"></div>\n                    </div>\n                </div>\n                \n                <div class=\"counter-display\" id=\"counterCircle\">\n                    <span class=\"counter-number\" id=\"count\">0</span>\n                    <span class=\"counter-label\">/ <span id=\"targetDisplay\">33</span></span>\n                </div>\n                \n                <button class=\"big-button\" onclick=\"increment()\">\n                    👆 TOQUE PARA CONTAR\n                </button>\n                \n                <div class=\"controls-grid\">\n                    <button class=\"control-btn btn-minus\" onclick=\"decrement()\">➖ Diminuir</button>\n                    <button class=\"control-btn btn-reset\" onclick=\"reset()\">↺ Zerar</button>\n                </div>\n                \n                <div class=\"info-text\">\n                    💡 <strong>Dica:</strong> Você pode tocar em qualquer lugar da tela para contar. Use a barra de espaço no computador.\n                </div>\n            </div>\n        </div>\n        \n        <div id=\"page-settings\" class=\"page\">\n            <div class=\"card\">\n                <h3 style=\"color: var(--primary); margin-bottom: 20px; font-size: 1.3rem;\">⚙️ Configurações</h3>\n                \n                <div class=\"settings-row\">\n                    <label>Repetições:</label>\n                    <input type=\"number\" id=\"targetInput\" value=\"33\" min=\"1\" max=\"999\" onchange=\"updateTarget()\">\n                </div>\n                \n                <div class=\"settings-row\" style=\"flex-direction: column; align-items: flex-start;\">\n                    <label style=\"margin-bottom: 10px;\">Frase/Intenção:</label>\n                    <input type=\"text\" id=\"phraseInput\" class=\"text-input\" placeholder=\"Ex: Ave Maria, Baruch Hashem...\" style=\"width: 100%;\">\n                </div>\n                \n                <button class=\"big-button\" onclick=\"saveSettings()\" style=\"background: linear-gradient(135deg, var(--success) 0%, #2e7d32 100%);\">\n                    💾 Salvar\n                </button>\n            </div>\n            \n            <div class=\"card\">\n                <h3 style=\"color: var(--primary); margin-bottom: 15px;\">✏️ Palavras de Referência</h3>\n                <div class=\"word-list\" id=\"wordList\"></div>\n                \n                <div class=\"input-row\" style=\"margin-top: 15px;\">\n                    <input type=\"text\" class=\"text-input\" id=\"newWord\" placeholder=\"Adicionar palavra...\">\n                    <button class=\"add-btn\" onclick=\"addWord()\">➕</button>\n                </div>\n                \n                <button class=\"control-btn btn-reset\" onclick=\"loadDefaults()\" style=\"width: 100%; margin-top: 15px;\">\n                    🔄 Restaurar Padrões\n                </button>\n            </div>\n        </div>\n    </div>\n    \n    <div class=\"nav-bottom\">\n        <button class=\"nav-btn active\" onclick=\"showPage('religions')\">🙏 Religião</button>\n        <button class=\"nav-btn\" onclick=\"showPage('counter')\">🔢 Contar</button>\n        <button class=\"nav-btn\" onclick=\"showPage('settings')\">⚙️ Config</button>\n    </div>\n\n    <script>\n        let count = 0, target = 33, currentReligion = '', audioContext = null;\n        \n        const religions = {\n            catolico: { name: 'Católico', icon: '✝️', defaultTarget: 53, defaultPhrase: 'Ave Maria' },\n            islamico: { name: 'Islâmico', icon: '☪️', defaultTarget: 33, defaultPhrase: 'SubhanAllah' },\n            budista: { name: 'Budista', icon: '☸️', defaultTarget: 108, defaultPhrase: 'Om Mani Padme Hum' },\n            judaico: { name: 'Judaico', icon: '✡️', defaultTarget: 33, defaultPhrase: 'Baruch Hashem' }\n        };\n        \n        let words = {\n            catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem'],\n            islamico: ['allah', 'alhamdulillah', 'allahu akbar', 'subhanallah', 'astaghfirullah', 'bismillah'],\n            budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda'],\n            judaico: ['baruch', 'hashem', 'adonai', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah']\n        };\n        \n        function initAudio() {\n            if (!audioContext) {\n                audioContext = new (window.AudioContext || window.webkitAudioContext)();\n            }\n        }\n        \n        function playBeep(frequency = 800, duration = 0.1) {\n            try {\n                initAudio();\n                const osc = audioContext.createOscillator();\n                const gain = audioContext.createGain();\n                osc.connect(gain);\n                gain.connect(audioContext.destination);\n                osc.frequency.value = frequency;\n                osc.type = 'sine';\n                gain.gain.setValueAtTime(0.3, audioContext.currentTime);\n                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);\n                osc.start(audioContext.currentTime);\n                osc.stop(audioContext.currentTime + duration);\n            } catch(e) {}\n        }\n        \n        function playSuccess() {\n            try {\n                initAudio();\n                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {\n                    setTimeout(() => {\n                        const osc = audioContext.createOscillator();\n                        const gain = audioContext.createGain();\n                        osc.connect(gain);\n                        gain.connect(audioContext.destination);\n                        osc.frequency.value = freq;\n                        gain.gain.setValueAtTime(0.2, audioContext.currentTime);\n                        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);\n                        osc.start();\n                        osc.stop(audioContext.currentTime + 0.5);\n                    }, i * 100);\n                });\n            } catch(e) {}\n        }\n        \n        function selectReligion(religion) {\n            currentReligion = religion;\n            const data = religions[religion];\n            target = data.defaultTarget;\n            \n            document.querySelectorAll('.religion').forEach(el => el.classList.remove('active'));\n            event.currentTarget.classList.add('active');\n            \n            document.getElementById('targetInput').value = target;\n            document.getElementById('targetDisplay').textContent = target;\n            document.getElementById('currentMode').textContent = data.name + ' ' + data.icon;\n            document.getElementById('currentPhrase').textContent = data.defaultPhrase;\n            document.getElementById('phraseInput').value = data.defaultPhrase;\n            \n            renderWords();\n            updateProgress();\n            initAudio();\n            \n            setTimeout(() => showPage('counter'), 300);\n        }\n        \n        function showPage(page) {\n            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));\n            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));\n            document.getElementById('page-' + page).classList.add('active');\n            event.target.classList.add('active');\n            if (page === 'settings') renderWords();\n        }\n        \n        function increment() {\n            count++;\n            updateDisplay();\n            \n            const circle = document.getElementById('counterCircle');\n            circle.classList.add('pressed');\n            setTimeout(() => circle.classList.remove('pressed'), 100);\n            \n            playBeep(800, 0.1);\n            if (navigator.vibrate) navigator.vibrate(50);\n            \n            if (count >= target) complete();\n        }\n        \n        function decrement() {\n            if (count > 0) {\n                count--;\n                updateDisplay();\n                playBeep(400, 0.1);\n                if (navigator.vibrate) navigator.vibrate(30);\n            }\n        }\n        \n        function reset() {\n            count = 0;\n            updateDisplay();\n            playBeep(300, 0.2);\n            document.getElementById('counterCircle').classList.remove('completed');\n        }\n        \n        function updateDisplay() {\n            document.getElementById('count').textContent = count;\n            updateProgress();\n        }\n        \n        function updateProgress() {\n            const percentage = Math.min((count / target) * 100, 100);\n            document.getElementById('progressFill').style.width = percentage + '%';\n        }\n        \n        function updateTarget() {\n            const newTarget = parseInt(document.getElementById('targetInput').value);\n            if (newTarget > 0 && newTarget <= 999) {\n                target = newTarget;\n                document.getElementById('targetDisplay').textContent = target;\n                updateProgress();\n            }\n        }\n        \n        function saveSettings() {\n            const newTarget = parseInt(document.getElementById('targetInput').value);\n            const newPhrase = document.getElementById('phraseInput').value;\n            \n            if (newTarget > 0) {\n                target = newTarget;\n                document.getElementById('targetDisplay').textContent = target;\n                document.getElementById('currentPhrase').textContent = newPhrase || '---';\n                updateProgress();\n                playBeep(1000, 0.15);\n                alert('✅ Configurações salvas!');\n                showPage('counter');\n            }\n        }\n        \n        function complete() {\n            const circle = document.getElementById('counterCircle');\n            circle.classList.add('completed');\n            playSuccess();\n            if (navigator.vibrate) navigator.vibrate([100, 100, 100, 200, 100, 200]);\n            \n            setTimeout(() => {\n                const data = religions[currentReligion];\n                alert(`🎉 ${data.name} - Prática completada!\\n\\nTotal: ${count} repetições`);\n            }, 500);\n        }\n        \n        function renderWords() {\n            if (!currentReligion) {\n                document.getElementById('wordList').innerHTML = '<div style=\"color: #999;\">Selecione uma religião</div>';\n                return;\n            }\n            const container = document.getElementById('wordList');\n            container.innerHTML = words[currentReligion].map(word => \n                `<span class=\"word-tag\">${word}</span>`\n            ).join('');\n        }\n        \n        function addWord() {\n            if (!currentReligion) return;\n            const input = document.getElementById('newWord');\n            const word = input.value.trim().toLowerCase();\n            if (word && !words[currentReligion].includes(word)) {\n                words[currentReligion].push(word);\n                input.value = '';\n                renderWords();\n                playBeep(600, 0.1);\n            }\n        }\n        \n        function loadDefaults() {\n            words = {\n                catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem'],\n                islamico: ['allah', 'alhamdulillah', 'allahu akbar', 'subhanallah', 'astaghfirullah', 'bismillah'],\n                budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda'],\n                judaico: ['baruch', 'hashem', 'adonai', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah']\n            };\n            renderWords();\n            playBeep(800, 0.2);\n        }\n        \n        // Toque na tela inteira\n        document.addEventListener('DOMContentLoaded', () => {\n            const counterPage = document.getElementById('page-counter');\n            counterPage.addEventListener('click', (e) => {\n                if (!e.target.closest('button') && !e.target.closest('input')) {\n                    increment();\n                }\n            });\n            \n            document.addEventListener('keydown', (e) => {\n                if (e.code === 'Space' && document.getElementById('page-counter').classList.contains('active')) {\n                    e.preventDefault();\n                    increment();\n                }\n            });\n        });\n    </script>\n</body>\n</html>
+        var dados = {
+            catolico: { nome: 'Católico', meta: 53, frase: 'Ave Maria', palavras: 'Ave Maria, Pai Nosso, Glória, Santo, Deus, Jesus, Amém' },
+            islamico: { nome: 'Islâmico', meta: 33, frase: 'SubhanAllah', palavras: 'Allah, Alhamdulillah, Allahu Akbar, SubhanAllah' },
+            budista: { nome: 'Budista', meta: 108, frase: 'Om Mani Padme Hum', palavras: 'Om, Namo, Mani, Padme, Hum, Buda' },
+            judaico: { nome: 'Judaico', meta: 33, frase: 'Baruch Hashem', palavras: 'Baruch, Hashem, Adonai, Shema, Shalom, Torah' }
+        };
+
+        function mostrar(num) {
+            document.querySelectorAll('.pagina').forEach(function(p) {
+                p.classList.remove('ativa');
+            });
+            document.getElementById('pagina' + num).classList.add('ativa');
+        }
+
+        function escolher(rel) {
+            religiaoAtual = rel;
+            var d = dados[rel];
+            document.getElementById('titulo').innerHTML = d.nome + ' ' + (rel === 'catolico' ? '✝️' : rel === 'islamico' ? '☪️' : rel === 'budista' ? '☸️' : '✡️');
+            document.getElementById('meta').value = d.meta;
+            document.getElementById('frase').innerHTML = '<strong>' + d.frase + '</strong>';
+            document.getElementById('lista-palavras').innerHTML = '<strong>Palavras sugeridas:</strong><br><br>' + d.palavras;
+            contagem = 0;
+            document.getElementById('numero').innerHTML = contagem;
+            mostrar(2);
+        }
+
+        function contar() {
+            contagem++;
+            document.getElementById('numero').innerHTML = contagem;
+            
+            // Som simples
+            try {
+                var audio = new AudioContext();
+                var osc = audio.createOscillator();
+                var gain = audio.createGain();
+                osc.connect(gain);
+                gain.connect(audio.destination);
+                osc.frequency.value = 800;
+                gain.gain.value = 0.1;
+                osc.start();
+                osc.stop(audio.currentTime + 0.1);
+n            } catch(e) {}\n            \n            // Vibrar\n            if (navigator.vibrate) navigator.vibrate(50);\n            \n            // Verificar se completou\n            var meta = parseInt(document.getElementById('meta').value);\n            if (contagem >= meta) {\n                setTimeout(function() {\n                    alert('Parabéns! Completou ' + contagem + ' repetições!');\n                }, 200);\n            }\n        }\n\n        function diminuir() {\n            if (contagem > 0) {\n                contagem--;\n                document.getElementById('numero').innerHTML = contagem;\n            }\n        }\n\n        function zerar() {\n            contagem = 0;\n            document.getElementById('numero').innerHTML = contagem;\n        }\n\n        // Tecla espaço no desktop\n        document.addEventListener('keydown', function(e) {\n            if (e.code === 'Space' && document.getElementById('pagina2').classList.contains('ativa')) {\n                e.preventDefault();\n                contar();\n            }\n        });\n    </script>\n</body>\n</html>
