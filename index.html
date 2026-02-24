@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Contador Devocional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #d4af37;
+            --accent: #f0f4ff;
+            --text: #1e293b;
+            --bg: linear-gradient(135deg, #f0f4ff 0%, #dbe4ff 100%);
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        
+        .header { text-align: center; padding: 20px 10px; }
+        .header h1 { color: var(--primary); font-size: 1.6rem; margin-bottom: 5px; font-weight: 700; }
+        .header p { font-size: 0.9rem; opacity: 0.7; }
+        
+        .nav { 
+            display: flex; 
+            background: white; 
+            border-radius: 15px; 
+            padding: 5px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn { 
+            flex: 1; 
+            padding: 12px 8px; 
+            border: none; 
+            background: transparent; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            color: var(--text);
+            font-size: 0.85rem;
+        }
+        
+        .nav-btn.active { background: var(--primary); color: white; }
+        
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 20px; 
+            margin-bottom: 15px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        .theme { 
+            background: var(--accent); 
+            border: 3px solid transparent; 
+            border-radius: 16px; 
+            padding: 20px 10px; 
+            text-align: center; 
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .theme:active { transform: scale(0.95); }
+        .theme.active { border-color: var(--primary); background: white; }
+        .theme-icon { font-size: 2.2rem; margin-bottom: 8px; }
+        .theme-name { font-size: 0.95rem; font-weight: 600; color: var(--primary); }
+        
+        .counter-display {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            position: relative;
+        }
+        
+        .counter-number { font-size: 3.5rem; font-weight: bold; z-index: 1; }
+        .counter-label { font-size: 0.9rem; opacity: 0.9; z-index: 1; }
+        
+        .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3); }
+        .btn-voice { background: var(--secondary); color: var(--text); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .btn-danger { background: #dc3545; color: white; }
+        
+        .btn-voice.listening {
+            background: #dc3545;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
+        }
+        
+        .status-bar {
+            background: var(--accent);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        
+        .text-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        
+        .text-input:focus { outline: none; border-color: var(--primary); }
+        
+        .word-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        
+        .word-tag {
+            background: var(--primary);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .word-tag .remove { cursor: pointer; opacity: 0.7; font-weight: bold; }
+        
+        .empty-state { text-align: center; padding: 40px 20px; color: #999; }
+        .empty-icon { font-size: 3rem; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🙏 Contador Devocional</h1>
+        <p>Multi-fé: Católico • Islâmico • Budista • Judaico</p>
+    </div>
+    
+    <div class="nav">
+        <button class="nav-btn active" onclick="showPage('themes')">Tradições</button>
+        <button class="nav-btn" onclick="showPage('counter')">Contador</button>
+        <button class="nav-btn" onclick="showPage('words')">Palavras</button>
+    </div>
+    
+    <div id="page-themes" class="page active">
+        <div class="card">
+            <div class="themes">
+                <div class="theme" onclick="selectTheme('catolico', this)">
+                    <div class="theme-icon">✝️</div>
+                    <div class="theme-name">Católico</div>
+                </div>
+                <div class="theme" onclick="selectTheme('islamico', this)">
+                    <div class="theme-icon">☪️</div>
+                    <div class="theme-name">Islâmico</div>
+                </div>
+                <div class="theme" onclick="selectTheme('budista', this)">
+                    <div class="theme-icon">☸️</div>
+                    <div class="theme-name">Budista</div>
+                </div>
+                <div class="theme active" onclick="selectTheme('judaico', this)">
+                    <div class="theme-icon">✡️</div>
+                    <div class="theme-name">Judaico</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="page-counter" class="page">
+        <div class="card" style="text-align: center;">
+            <div class="counter-display">
+                <span class="counter-number" id="count">0</span>
+                <span class="counter-label">/ <span id="target">33</span></span>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="increment()">➕ Contar</button>
+                <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤 Voz</button>
+                <button class="btn btn-danger" onclick="reset()">↺ Zerar</button>
+            </div>
+            
+            <div class="status-bar">
+                <strong>Modo:</strong> <span id="currentMode">Judaico</span><br>
+                <strong>Detecta:</strong> <span id="currentWords">baruch, hashem, adonai...</span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="page-words" class="page">
+        <div class="card">
+            <h3 style="color: var(--primary); margin-bottom: 15px;">✏️ Gerenciar Palavras</h3>
+            <div class="input-row">
+                <input type="text" class="text-input" id="newWord" placeholder="Nova palavra..." onkeypress="if(event.key==='Enter') addWord()">
+                <button class="btn btn-primary" onclick="addWord()">➕</button>
+            </div>
+            <div class="word-tags" id="wordList"></div>
+            <button class="btn btn-voice" onclick="loadDefaults()" style="margin-top: 15px; width: 100%;">🔄 Restaurar Padrões</button>
+        </div>
+    </div>
+
+    <script>
+        let count = 0;
+        let currentTheme = 'judaico';
+        let isListening = false;
+        let recognition = null;
+        
+        const themes = {
+            catolico: { name: 'Católico', target: 53 },
+            islamico: { name: 'Islâmico', target: 33 },
+            budista: { name: 'Budista', target: 108 },
+            judaico: { name: 'Judaico', target: 33 }
+        };
+        
+        let words = {
+            catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem'],
+            islamico: ['allah', 'alhamdulillah', 'allahu akbar', 'subhanallah', 'astaghfirullah', 'bismillah'],
+            budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda'],
+            judaico: ['baruch', 'hashem', 'adonai', 'adonay', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah', 'tzedakah']
+        };
+        
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            recognition.lang = 'pt-BR';
+            
+            recognition.onresult = (event) => {
+                const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                words[currentTheme].forEach(word => {
+                    if (transcript.includes(word)) increment();
+                });
+            };
+            
+            recognition.onerror = (e) => {
+                if (e.error === 'no-speech' && isListening) {
+                    setTimeout(() => recognition.start(), 500);
+                }
+            };
+        }
+        
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            event.target.classList.add('active');
+            if (page === 'words') renderWords();
+        }
+        
+        function selectTheme(theme, element) {
+            currentTheme = theme;
+            document.querySelectorAll('.theme').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('currentMode').textContent = themes[theme].name;
+            document.getElementById('target').textContent = themes[theme].target;
+            updateWordDisplay();
+            reset();
+        }
+        
+        function increment() {
+            count++;
+            document.getElementById('count').textContent = count;
+            if (navigator.vibrate) navigator.vibrate(50);
+            if (count >= themes[currentTheme].target) {
+                complete();
+            }
+        }
+        
+        function reset() {
+            count = 0;
+            document.getElementById('count').textContent = count;
+            if (isListening) toggleVoice();
+        }
+        
+        function toggleVoice() {
+            if (!recognition) {
+                alert('Reconhecimento de voz não suportado neste dispositivo');
+                return;
+            }
+            
+            isListening = !isListening;
+            const btn = document.getElementById('voiceBtn');
+            
+            if (isListening) {
+                recognition.start();
+                btn.textContent = '⏹️ Parar';
+                btn.classList.add('listening');
+            } else {
+                recognition.stop();
+                btn.textContent = '🎤 Voz';
+                btn.classList.remove('listening');
+            }
+        }
+        
+        function complete() {
+            if (isListening) toggleVoice();
+            alert('🎉 Prática completada! ' + themes[currentTheme].name);
+            if (navigator.vibrate) navigator.vibrate([100, 100, 100, 300]);
+        }
+        
+        function renderWords() {
+            const container = document.getElementById('wordList');
+            const currentWords = words[currentTheme];
+            
+            if (currentWords.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><p>Nenhuma palavra configurada</p></div>';
+                return;
+            }
+            
+            container.innerHTML = currentWords.map((word, index) => 
+                `<span class="word-tag">${word}<span class="remove" onclick="removeWord(${index})">×</span></span>`
+            ).join('');
+        }
+        
+        function addWord() {
+            const input = document.getElementById('newWord');
+            const word = input.value.trim().toLowerCase();
+            
+            if (!word) return;
+            
+            if (!words[currentTheme].includes(word)) {
+                words[currentTheme].push(word);
+                input.value = '';
+                renderWords();
+                updateWordDisplay();
+            }
+        }
+        
+        function removeWord(index) {
+            words[currentTheme].splice(index, 1);
+            renderWords();
+            updateWordDisplay();
+        }
+        
+        function loadDefaults() {
+            words = {
+                catolico: ['pai nosso', 'ave maria', 'gloria', 'santo', 'deus', 'jesus', 'maria', 'amem', 'creio'],
+                islamico: ['allah', 'ala', 'muhammad', 'subhanallah', 'alhamdulillah', 'allahu akbar', 'astaghfirullah'],
+                budista: ['om', 'namo', 'amituofo', 'mani', 'padme', 'hum', 'gate', 'svaha', 'buda', 'amitabha'],
+                judaico: ['baruch', 'hashem', 'adonai', 'adonay', 'elohenu', 'modeh', 'ani', 'shema', 'israel', 'shalom', 'torah', 'tzedakah', 'tefilah', 'bracha', 'melech', 'olam', 'kodesh', 'shabbat', 'yisrael', 'elohim']
+            };
+            renderWords();
+            updateWordDisplay();
+        }
+        
+        function updateWordDisplay() {
+            const display = words[currentTheme].slice(0, 4).join(', ') + '...';
+            document.getElementById('currentWords').textContent = display;
+        }
+        
+        updateWordDisplay();
+    </script>
+</body>
+  </html>
